@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// schema.prisma
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "windows"]
+}
+
+enum MatchMode {
+  replace
+  classic
+  ioi
+}
+
+model Match {
+  id       String     @id @default(cuid())
+  problems Problem[]  @relation("MatchProblems")
+  teams    Team[]     @relation("MatchTeams")
+  solveLog SolveLog[] @relation("MatchSolveLogs")
+  mode  MatchMode
+  startTime DateTime
+  durationMinutes Int
+  replaceIncrement Int?     @default(100)
+  minRating Int?   // optional: store min rating used when creating the match
+  maxRating Int?   // optional: store max rating used when creating the match
+}
+
+model Problem {
+  //id        Int     @id @default(autoincrement())
+  contestId Int
+  index     String
+  match     Match?  @relation("MatchProblems", fields: [matchId], references: [id])
+  matchId   String
+  rating    Int
+  name      String
+  maxPoints Int?       // NEW for IOI
+  solveLogs SolveLog[]
+  position  Int      @default(0) // NEW - position in grid: 0..(N-1)
+  active    Boolean  @default(true) // NEW
+
+  @@id([contestId, index, matchId])
+
+}
+
+model Team {
+  id      Int      @id @default(autoincrement())
+  name    String
+  color   String
+  members Member[]
+  match   Match?   @relation("MatchTeams", fields: [matchId], references: [id])
+  matchId String?
+}
+
+model Member {
+  id     Int    @id @default(autoincrement())
+  handle String
+  team   Team   @relation(fields: [teamId], references: [id])
+  teamId Int
+}
+
+model SolveLog {
+  id        Int      @id @default(autoincrement())
+  handle    String
+  team      String
+  contestId Int
+  index     String
+  timestamp DateTime
+  score     Int?     // NEW for IOI
+  match     Match   @relation("MatchSolveLogs", fields: [matchId], references: [id])
+  matchId   String
+  problem   Problem  @relation(fields: [contestId, index, matchId], references: [contestId, index, matchId])
+
+}

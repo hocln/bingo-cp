@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Match" ADD COLUMN "duration" INTEGER;
+ALTER TABLE "Match" ADD COLUMN "mode" TEXT;
+ALTER TABLE "Match" ADD COLUMN "startTime" DATETIME;
