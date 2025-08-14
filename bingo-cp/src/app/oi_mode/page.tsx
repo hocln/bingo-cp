@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-
+import Link from 'next/link'
 export default function OIModeComingSoon(): React.JSX.Element {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 px-6 py-20">
@@ -47,7 +47,7 @@ export default function OIModeComingSoon(): React.JSX.Element {
             </h1>
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
               IOI Mode lets tiles be decided by partial scores — the highest-scoring submission claims the tile,
-              with ties broken by submission time. We're polishing judge integrations and testing reliability
+              with ties broken by submission time. We&apos;re polishing judge integrations and testing reliability
               so the experience is fair and fast.
             </p>
 
@@ -58,12 +58,12 @@ export default function OIModeComingSoon(): React.JSX.Element {
             </ul>
 
             <div className="flex flex-wrap gap-3">
-              <a
+              <Link
                 href="/"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm hover:shadow transition"
               >
                 Back to Home
-              </a>
+              </Link>
 
               <a
                 href="/help"
@@ -74,7 +74,7 @@ export default function OIModeComingSoon(): React.JSX.Element {
             </div>
 
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-6">
-              We’ll reach out to everyone who requested notification via the email above when IOI Mode is ready.
+              We&apos;ll reach out to everyone who requested notification via the email above when IOI Mode is ready.
             </p>
           </motion.div>
         </div>

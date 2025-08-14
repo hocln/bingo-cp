@@ -26,6 +26,8 @@ export interface ProblemCell {
   link: string;
   claimedBy?: string;
   solvedBy?: string;
+  active?: boolean;
+  position: number;
 }
 
 export interface SolveEntry {

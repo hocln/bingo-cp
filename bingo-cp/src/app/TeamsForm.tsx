@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Team } from "./types/match";
 
 interface TeamInput {
   name: string;
@@ -34,7 +33,7 @@ type ColorOption = "red" | "blue" | "green" | "purple" | "orange" | "pink" | "ye
     teal: { bg: "bg-teal-200", text: "text-teal-800" },
   };
 
-  const [teams, setTeams] = useState([
+  const [teams, setTeams] = useState<TeamInput[]>([
     { name: "", color: "", members: [""] },
   ]);
 
@@ -44,9 +43,13 @@ type ColorOption = "red" | "blue" | "green" | "purple" | "orange" | "pink" | "ye
     updateTeams(newTeams);
   };
 
-  const updateTeam = (index: number, key: string, value: any) => {
+   const updateTeam = <K extends keyof TeamInput>(
+    index: number,
+    key: K,
+    value: TeamInput[K]
+  ) => {
     const newTeams = [...teams];
-    (newTeams[index] as any)[key] = value;
+    newTeams[index][key] = value;
     updateTeams(newTeams);
   };
 
@@ -70,13 +73,6 @@ type ColorOption = "red" | "blue" | "green" | "purple" | "orange" | "pink" | "ye
     const newTeams = [...teams, { name: "", color: "", members: [""] }]; // use a color key
     updateTeams(newTeams);
   };
-
-  const updateTeamField = (index: number, field: keyof TeamInput, value: any) => {
-    const newTeams = [...teams];
-    newTeams[index][field] = value;
-    updateTeams(newTeams);
-  };
-
   const updateMember = (teamIndex: number, memberIndex: number, value: string) => {
     const newTeams = [...teams];
     newTeams[teamIndex].members[memberIndex] = value;

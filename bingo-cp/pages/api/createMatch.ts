@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '../../src/app/lib/prisma';
-import { Prisma, MatchMode } from '@prisma/client';
+import { MatchMode } from '@prisma/client';
 
 type ProblemWithGrid = {
   contestId: number;
@@ -42,7 +42,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const allHandles = teams.flatMap((team) => team.members);
   try {
-    let problemData;
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
     const problemRes = await fetch(`${baseUrl}/api/getProblems`, {
       method: 'POST',
@@ -55,7 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }),
     })
     if (!problemRes.ok) return res.status(500).json({ error: 'Failed to fetch problems' })
-    problemData = await problemRes.json()
+    const problemData = await problemRes.json();
     const problems: ProblemWithGrid[] = problemData.problems.map(
       (p: { contestId: number; index: string, rating: number, name: string }, idx: number) => ({
         contestId: p.contestId,
@@ -78,17 +77,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     });
     // console.timeEnd("match");
-    const data= problems.map((p) => ({
-        contestId: p.contestId,
-        index: p.index,
-        matchId: match.id,
-        rating: p.rating,
-        name: p.name,
-      }));
-      let x;
-      problems.map((p) => ({
-        x: p.contestId,
-      }));
       // console.time("createMany");
       await prisma.problem.createMany({
         data: problems.map((p) => ({
@@ -121,18 +109,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })),
       });
     }
-    const fullMatch = await prisma.match.findUnique({
-      where: { id: match.id },
-      include: {
-        teams: {
-          include: {
-            members: true,
-          },
-        },
-        problems: true,
-        solveLog: {include : {problem: true}}, // i changed it
-      },
-    });
 
   return res.status(200).json({id: match.id});
   } catch (error) {

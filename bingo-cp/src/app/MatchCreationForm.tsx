@@ -1,5 +1,5 @@
 "use client";
-import type { Match, Team, ProblemCell, SolveEntry } from "./types/match";
+import type { Match, Team} from "./types/match";
 import { useState } from "react";
 import TeamsForm from "./TeamsForm";
 import { useRouter } from 'next/navigation';
@@ -7,17 +7,9 @@ import { useRouter } from 'next/navigation';
 type MatchCreationFormProps = {
   onMatchCreated: (match: Match) => void;
 };
-function formatCountdown(ms: number): string {
-  if (ms <= 0) return "00:00:00";
-  const totalSeconds = Math.floor(ms / 1000);
-  const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, "0");
-  const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, "0");
-  const seconds = (totalSeconds % 60).toString().padStart(2, "0");
-  return `${hours}:${minutes}:${seconds}`;
-}
 
 
-const MatchCreationForm: React.FC<MatchCreationFormProps> = ({ onMatchCreated }) => {
+const MatchCreationForm: React.FC<MatchCreationFormProps> = ({}) => {
   const router = useRouter();
   const [teams, setTeams] = useState<Team[]>([]);
 
@@ -42,7 +34,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     return;
   }
   const usedColors = new Set();
-  for (let team of teams) {
+  for (const team of teams) {
     if (!team.name.trim()) {
       alert("Each team must have a name.");
       return;

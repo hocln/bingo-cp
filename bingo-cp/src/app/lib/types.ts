@@ -5,6 +5,7 @@ export type Problem = {
   index: string;
   name: string;
   rating: number;
+  acitve: boolean;
 };
 
 export type Team = {
@@ -23,12 +24,25 @@ export type ClaimedSquare = {
   time: number;
 };
 
+type solveLog = {
+  id: number;
+  handle: string;
+  team: string;
+  contestId: number;
+  index: string;
+  timestamp: Date;
+  score: number;
+  match: Match;
+  matchId: string;
+  problem: Problem;
+}
+
 export type Match = {
   id: string;
   grid: Problem[][];
   teams: Team[];
   claimed: ClaimedSquare[];
-  solveLog: any[]; // optional for tracking solves
+  solveLog: solveLog[]; // optional for tracking solves
 };
 
 

@@ -56,7 +56,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }))
     )
     const matchStart = new Date(match.startTime);
-    const matchEnd = new Date(matchStart.getTime() + match.durationMinutes * 60000);
     const claims = await checkSolvesLogic(problems, players)
     const newSolves: Array<{
       handle: string;

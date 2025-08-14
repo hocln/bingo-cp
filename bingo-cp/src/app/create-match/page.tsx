@@ -3,8 +3,19 @@ import { useEffect, useState } from 'react';
 import Loading from '../Loading';
 // import { MatchStatus } from "./MatchStatus";
 import MatchCreationForm from '../MatchCreationForm';
-import { Match } from '../types/match';
-
+import { Match, ProblemCell } from '../types/match';
+type solveLog = {
+  id: number;
+  handle: string;
+  team: string;
+  contestId: number;
+  index: string;
+  timestamp: Date;
+  score: number;
+  match: Match;
+  matchId: string;
+  problem: ProblemCell;
+}
 const teamColors: Record<string, string> = {
   red: 'bg-red-500',
   blue: 'bg-blue-500',
@@ -87,7 +98,7 @@ export default function Home() {
           const solvedMap: Record<string, SolvedInfo> = {};
           const newLogEntries: LogEntry[] = [];
 
-          pollData.match.solveLog.forEach((entry: any) => {
+          pollData.match.solveLog.forEach((entry: solveLog) => {
             const key = `${entry.contestId}-${entry.index}`;
             
             solvedMap[key] = {
@@ -219,13 +230,33 @@ export default function Home() {
               </h1>
             </a>
             <div className="flex items-center space-x-4 border-l pl-6 ml-4 dark:border-gray-600">
-              {['Home', 'ICPC Mode', 'IOI Mode', 'Help'].map(label => (
+            <a href={`${links['Home']}`}>
+              <button key={'Home'} className="cursor-pointer px-4 py-1 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm">
+                {'Home'}
+              </button>
+            </a>
+            <a href={`${links['ICPC Mode']}`}>
+              <button key={'ICPC Mode'} className="cursor-pointer px-4 py-1 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm">
+                {'ICPC Mode'}
+              </button>
+            </a>
+            <a href={`${links['IOI Mode']}`}>
+              <button key={'IOI Mode'} className="cursor-pointer px-4 py-1 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm">
+                {'IOI Mode'}
+              </button>
+            </a>
+            <a href={`${links['Help']}`}>
+              <button key={'Help'} className="cursor-pointer px-4 py-1 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm">
+                {'Help'}
+              </button>
+            </a>
+              {/* {['Home', 'ICPC Mode', 'IOI Mode', 'Help'].map(label => (
                 <a href={`${links[label]}`}>
                   <button key={label} className="cursor-pointer px-4 py-1 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm">
                     {label}
                   </button>
                 </a>
-              ))}
+              ))} */}
             </div>
           </div>
         </header>

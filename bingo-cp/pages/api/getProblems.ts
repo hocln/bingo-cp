@@ -20,8 +20,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const {
     minRating = 800,
     maxRating = 3500,
-    minContestId = 0,
-    maxContestId = 999999,
     userHandles = [],
     count = 25,
     exclude = [],

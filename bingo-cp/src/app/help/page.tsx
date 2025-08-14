@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 export default function HelpPage(): React.JSX.Element {
+  const [openIndex, setOpenIndex] = React.useState<number | null>(null);
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       <header className="max-w-5xl mx-auto px-6 pt-12 pb-6">
@@ -41,7 +42,7 @@ export default function HelpPage(): React.JSX.Element {
               <div>
                 <strong>Why CPC mode?</strong>
                 <div className="mt-1">
-                  It's simple and social: teams race to solve problems, and the board updates automatically.
+                  It&apos;s simple and social: teams race to solve problems, and the board updates automatically.
                   No manual claiming is required.
                 </div>
               </div>
@@ -120,9 +121,6 @@ export default function HelpPage(): React.JSX.Element {
                 a: "Match creation can take time depending on the number of handles and the size of the problem pool. It may take up to 30–40 seconds in some cases. If it takes much longer, check your network and server logs or try again."
                 }
             ];
-
-            const [openIndex, setOpenIndex] = React.useState<number | null>(null);
-
             return (
                 <div className="text-sm text-gray-700 dark:text-gray-300 space-y-3">
                 {faqs.map((item, i) => {

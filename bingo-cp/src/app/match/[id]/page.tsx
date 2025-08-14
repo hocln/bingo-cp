@@ -4,11 +4,19 @@ import { useParams } from 'next/navigation';
 import Loading from '../../Loading';
 import Confetti from 'react-confetti';
 import { useRef } from 'react';
+import {ProblemCell} from '../../types/match'
 
 // import { MatchStatus } from "./MatchStatus";
 import MatchCreationForm from '../../MatchCreationForm';
 import { Match } from '../../types/match';
 import TeamsForm from '@/app/TeamsForm';
+
+type SolveLog = {
+  contestId: number;
+  index: string;
+  team: string;
+  problem: ProblemCell;
+}
 
 const teamColors: Record<string, string> = {
   red: 'bg-red-500',
@@ -92,14 +100,14 @@ function notifyBrowser(title: string, body?: string) {
   }
 }
 
-function normalizeProblemsFromServer(raw: any[]) {
+function normalizeProblemsFromServer(raw: ProblemCell[]) {
   if (!Array.isArray(raw)) return [];
 
   const active = raw.filter(p => p && p.active !== false);
   const hasPosition = active.every(p => typeof p.position === 'number');
 
   if (hasPosition) {
-    const byPos = new Map<number, any>();
+    const byPos = new Map<number, ProblemCell>();
     for (const p of active) {
       const pos = p.position as number;
       if (!byPos.has(pos)) byPos.set(pos, p);
@@ -110,7 +118,7 @@ function normalizeProblemsFromServer(raw: any[]) {
   }
 
   const seen = new Set<string>();
-  const result: any[] = [];
+  const result: ProblemCell[] = [];
   for (const p of active) {
     const key = `${p.contestId}-${p.index}`;
     if (!seen.has(key)) {
@@ -168,6 +176,8 @@ export default function Home() {
     }
   }, [match?.id]);
 
+  
+
 
   useEffect(() => {
     if (!id) return;
@@ -192,7 +202,7 @@ export default function Home() {
 
         const teamsFromServer = matchObj.teams ?? [];
 
-        (matchObj.solveLog ?? []).forEach((entry: any) => {
+        (matchObj.solveLog ?? []).forEach((entry: SolveLog) => {
             const key = `${entry.contestId}-${entry.index}`;
             const { displayName, teamKey } = resolveTeamDisplayAndKey(entry.team, teamsFromServer);
             solvedMap[entry.problem.position] = {
@@ -236,8 +246,13 @@ export default function Home() {
     fetchMatch();
   }, [id]);
 
+  type Team = {
+    name: string;
+    color: string;
+  }
 
-  function resolveTeamDisplayAndKey(teamIdentifier: string | undefined, teamsListParam?: any[]) {
+
+  function resolveTeamDisplayAndKey(teamIdentifier: string | undefined, teamsListParam?: Team[]) {
     const teamsList = teamsListParam ?? (match?.teams ?? []);
     if (!teamIdentifier) return { displayName: 'Unknown', teamKey: 'unknown' };
 
@@ -292,7 +307,7 @@ export default function Home() {
           const problemUpdates: Record<string, { name?: string; rating?: number; contestId?: number; index?:string }> = {};
 
           const teamsFromServer = pollData.match?.teams ?? [];
-          pollData.match.solveLog.forEach((entry: any) => {
+          pollData.match.solveLog.forEach((entry: SolveLog) => {
             const key = `${entry.contestId}-${entry.index}`;
             const { displayName, teamKey } = resolveTeamDisplayAndKey(entry.team, teamsFromServer);
             solvedMap[key] = {
@@ -590,13 +605,33 @@ export default function Home() {
             </h1>
           </a>
           <div className="flex items-center space-x-4 border-l pl-6 ml-4 dark:border-gray-600">
-            {['Home', 'ICPC Mode', 'IOI Mode', 'Help'].map(label => (
-              <a href={`${links[label]}`}>
-                <button key={label} className="cursor-pointer px-4 py-1 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm">
-                  {label}
-                </button>
-              </a>
-            ))}
+            <a href={`${links['Home']}`}>
+              <button key={'Home'} className="cursor-pointer px-4 py-1 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm">
+                {'Home'}
+              </button>
+            </a>
+            <a href={`${links['ICPC Mode']}`}>
+              <button key={'ICPC Mode'} className="cursor-pointer px-4 py-1 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm">
+                {'ICPC Mode'}
+              </button>
+            </a>
+            <a href={`${links['IOI Mode']}`}>
+              <button key={'IOI Mode'} className="cursor-pointer px-4 py-1 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm">
+                {'IOI Mode'}
+              </button>
+            </a>
+            <a href={`${links['Help']}`}>
+              <button key={'Help'} className="cursor-pointer px-4 py-1 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm">
+                {'Help'}
+              </button>
+            </a>
+              {/* {['Home', 'ICPC Mode', 'IOI Mode', 'Help'].map(label => (
+                <a href={`${links[label]}`}>
+                  <button key={label} className="cursor-pointer px-4 py-1 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm">
+                    {label}
+                  </button>
+                </a>
+              ))} */}
           </div>
         </div>
       </header>
