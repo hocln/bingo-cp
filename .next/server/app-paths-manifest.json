@@ -1,0 +1,7 @@
+{
+  "/create-match/page": "app/create-match/page.js",
+  "/match/[id]/page": "app/match/[id]/page.js",
+  "/help/page": "app/help/page.js",
+  "/home/page": "app/home/page.js",
+  "/page": "app/page.js"
+}

@@ -3,7 +3,7 @@ import { prisma } from "../../src/app/lib/prisma"
 import { checkSolvesLogic } from './checkSolvesLogic'
 async function fetchReplacementProblem(exclude: string[], minRating?: number, maxRating?: number, handles?: string[] ) {
   try {
-    const res = await fetch('http://localhost:3000/api/getProblems', {
+    const res = await fetch('/api/getProblems', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

@@ -17,10 +17,10 @@ const teamColors: Record<string, string> = {
 };
 
 const links: Record<string, string> = {
-  "Home": 'http://localhost:3000/home',
-  "ICPC Mode": 'http://localhost:3000/create-match',
-  "IOI Mode": 'http://localhost:3000/oi_mode',
-  "Help": 'http://localhost:3000/help',
+  "Home": '/home',
+  "ICPC Mode": '/create-match',
+  "IOI Mode": '/oi_mode',
+  "Help": '/help',
 };
 
 
@@ -213,7 +213,7 @@ export default function Home() {
         {/* Header */}
         <header className="w-full bg-gray-100 dark:bg-gray-800 border-b dark:border-gray-700 shadow-sm sticky top-0 z-20">
           <div className="max-w-6xl mx-auto flex justify-between items-center px-4 py-3">
-            <a href="http://localhost:3000/home">
+            <a href="/home">
               <h1 className="text-2xl font-extrabold bg-gradient-to-r from-purple-500 to-pink-500 text-transparent bg-clip-text tracking-wide">
                 Bingo CP
               </h1>

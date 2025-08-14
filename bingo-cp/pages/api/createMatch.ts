@@ -43,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const allHandles = teams.flatMap((team) => team.members);
   try {
     let problemData;
-    const problemRes = await fetch('http://localhost:3000/api/getProblems', {
+    const problemRes = await fetch('/api/getProblems', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
