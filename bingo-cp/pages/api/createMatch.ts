@@ -42,7 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const allHandles = teams.flatMap((team) => team.members);
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const baseUrl = 'https://bingo-cp-ws6z.vercel.app'; // UPDATE IT LATER
     const problemRes = await fetch(`${baseUrl}/api/getProblems`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
