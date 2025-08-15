@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
+const SpeedInsights = dynamic(
+  () => import("@vercel/speed-insights/next").then((m) => m.SpeedInsights),
+  { ssr: false }
+);
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 const geistSans = Geist({
@@ -27,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        {process.env.NODE_ENV === "production" && <SpeedInsights />}
       </body>
     </html>
   );

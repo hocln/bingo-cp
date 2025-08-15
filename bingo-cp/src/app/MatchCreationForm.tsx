@@ -160,7 +160,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     problems: [],
     solveLog: [],
   };
-  console.time("matchCreation")
+  // console.time("matchCreation")
   const res = await fetch("../../api/createMatch", {
     method: "POST",
     headers: {
@@ -168,7 +168,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     },
     body: JSON.stringify(matchData),
   });
-  console.timeEnd("matchCreation");
+  // console.timeEnd("matchCreation");
   
   if (!res.ok) {
     const errorText = await res.text(); // Read the error body
