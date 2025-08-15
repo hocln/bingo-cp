@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     problems = problems.filter(
       (p) =>
-        !p.tags.includes('*special problem') &&
+        !p.tags.includes('*special') &&
         p.rating &&
         p.rating >= minRating &&
         p.rating <= maxRating &&
